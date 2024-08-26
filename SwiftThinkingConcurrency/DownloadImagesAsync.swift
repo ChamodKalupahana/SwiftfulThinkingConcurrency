@@ -90,9 +90,21 @@ class DownloadImagesAsyncViewModel : ObservableObject {
 
 struct DownloadImagesAsync: View {
     
-    @StateObject private var viewModel = DownloadImagesAsyncViewModel()
-    
     var body: some View {
+        ScrollView{
+            VStack{
+                ForEach(0..<10) { index in
+                    ImageFrame()
+                }
+                
+            }
+        }
+    }
+}
+
+struct ImageFrame : View {
+    @StateObject private var viewModel = DownloadImagesAsyncViewModel()
+    var body : some View {
         ZStack{
             if let image = viewModel.image {
                 Image(uiImage: image)
@@ -102,10 +114,8 @@ struct DownloadImagesAsync: View {
             } else {
                 ProgressView()
             }
-        }
-        //.onAppear(perform:viewModel.fetchImage)
-        // to support concurrency, enter a task and wait for a response
-        .onAppear {
+            
+        }.onAppear {
             Task {
                 await viewModel.fetchImage()
             }
