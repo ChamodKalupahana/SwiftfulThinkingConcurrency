@@ -38,6 +38,9 @@ class DownloadImageAsyncImageLoader {
             .eraseToAnyPublisher()
     }
     
+    // benefit of using async
+    // 1. don't have to declare weak self references
+    // 2. safer, complier will throw errors easier than with @escaping
     func downloadwithAsync() async throws -> UIImage? {
         do {
             let (data, response) = try await URLSession.shared.data(from: url, delegate: nil)
